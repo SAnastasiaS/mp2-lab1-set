@@ -7,6 +7,10 @@
 
 #include "tbitfield.h"
 
+void f()
+{
+}
+
 TBitField::TBitField(int len)
 {
 }
