@@ -10,6 +10,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample_prime_numbers", "sample_prime_numbers\sample_prime_numbers.vcxproj", "{5D0218F2-E502-414F-BA66-9E76B2785178}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main", "main\main.vcxproj", "{38740700-31C4-4E4B-B26A-5B68EC0FAF90}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A76282B3-4276-4945-9AF2-3AC68111A828} = {A76282B3-4276-4945-9AF2-3AC68111A828}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
