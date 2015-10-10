@@ -7,6 +7,7 @@
 
 #include "tbitfield.h"
 #include <assert.h>
+#include <algorithm>
  
 void TBitField::CheckN (const int n) const 
 {
@@ -129,18 +130,15 @@ int TBitField::operator!=(const TBitField &bf) const // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 {
-	/*int len = BitLen;
-	if (bf.BitLen>len)
-		len=bf.BitLen;
+	/*int len = max(BitLen, bf.BitLen);
 	TBitField temp(len);
 	for (int i=0; i<MemLen; ++i)
 		temp.pMem[i] = pMem[i];
 	for (int i=0; i<bf.MemLen; ++i)
 		temp.pMem[i] |= bf.pMem[i];
 	return temp;*/
-	int len = BitLen;
-	if (bf.BitLen>len)
-		len=bf.BitLen;
+
+	int len = max(BitLen, bf.BitLen);
 	TBitField temp(len);
 	for (int i=0; i<BitLen; ++i)
 		if (GetBit(i))
@@ -151,24 +149,82 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 	return temp;
 }
 
-//TBitField TBitField::operator&(const TBitField &bf) // операция "и"
-//{
-//}
-//
-//TBitField TBitField::operator~(void) // отрицание
-//{
-//}
-//
-//// ввод/вывод
-//
-//istream &operator>>(istream &istr, TBitField &bf) // ввод
-//{
-//
-//}
+TBitField TBitField::operator&(const TBitField &bf) // операция "и"
+{
+	//int len = max(BitLen, bf.BitLen);
+	//TBitField temp(len);
+	//for (int i=0; i<MemLen; ++i)
+	//	temp.pMem[i] = pMem[i];
+	//for (int i=0; i<bf.MemLen; ++i)
+	//	temp.pMem[i] &= bf.pMem[i];
+	//return temp;
+
+	int len = max(BitLen, bf.BitLen);
+	TBitField temp(len);
+	for (int i=0; i<min(BitLen, bf.BitLen); ++i)
+		if (GetBit(i) && bf.GetBit(i))
+			temp.SetBit(i);
+	return temp;
+}
+
+TBitField TBitField::operator~(void) // отрицание
+{
+	//TBitField temp(BitLen);
+	//for (int i=0; i<MemLen; ++i)
+	//	temp.pMem[i] = ~pMem[i];
+	//return temp;
+
+	TBitField temp(BitLen);
+	for (int i=0; i<BitLen; ++i)
+		if (GetBit(i))
+			temp.ClrBit(i);
+		else
+			temp.SetBit(i);
+	return temp;
+}
+
+ //ввод/вывод
+
+istream &operator>>(istream &istr, TBitField &bf) // ввод
+{
+	int i=0, k=0;
+	char ch;
+	cin >> std::ws; // кушает начальные пробелы
+	TBitField temp(32);
+	if ((char(istr.peek())!='0') && (char(istr.peek())!='1'))
+		return istr;
+	while (((char(istr.peek())=='0') || (char(istr.peek())=='1')) && (istr.peek()!=EOF))
+	{
+	while ((i<temp.GetLength()) && ((char(istr.peek())=='0') || (char(istr.peek())=='1')) && (istr.peek()!=EOF))
+	{
+		istr >> ch;
+		if (ch == '0')
+			temp.ClrBit(i++);
+		else
+			if (ch == '1')
+				temp.SetBit(i++);
+	}
+	if ((i==temp.GetLength()) && ((char(istr.peek())=='0') || (char(istr.peek())=='1')))
+	{
+		TBitField temp_copy(2*temp.GetLength());
+		for (k; k<temp.BitLen; k++)
+			if (temp.GetBit(k))
+				temp_copy.SetBit(k);
+		k=i;
+		temp=temp_copy;
+	}
+	}
+	TBitField copy(i);
+	for (int j=0; j<copy.GetLength(); j++)
+		if (temp.GetBit(j))
+			copy.SetBit(j);
+	bf = copy;
+	return istr;
+}
 
 ostream &operator<<(ostream &ostr, const TBitField &bf) // вывод
 {
-	for (int i=0; i<bf.BitLen; ++i)
+	for (int i=0; i<bf.GetLength(); ++i)
 		if (bf.GetBit(i))
 			ostr << 1;
 		else 
