@@ -23,7 +23,17 @@ int main()
 	//cout<<bittemp<<" Operation bit&bit3\n";
 	//bittemp = ~bit;
 	//cout<<bittemp<<" Operation ~bit\n";
-	TBitField bit4(10);
-	cin >> bit4;
-	cout << bit4;
+	//TBitField bit4(10);
+	/*cin >> bit4;
+	cout << bit4;*/
+  const int size = 4;
+  TBitField bf1(size), bf2(size);
+
+  bf1.SetBit(1);
+  bf1.SetBit(3);
+
+  bf2.SetBit(1);
+  bf2.SetBit(2);
+  int result = bf1 == bf2;
+  cout << result;
 }

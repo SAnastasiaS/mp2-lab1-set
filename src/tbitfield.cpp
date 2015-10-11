@@ -11,13 +11,25 @@
  
 void TBitField::CheckN (const int n) const 
 {
-	assert((n>-1)&&(n<BitLen));
+	if ((n<0)||(n>=BitLen))
+	{
+		throw "Incorrect entries";
+	}
 }
 
 TBitField::TBitField(int len)
 {
-	assert(len > 0);
-	
+	if (len<0)
+	{
+		throw "Incorrect entries";
+	}
+
+	if (len==0)
+	{
+		BitLen = 0;
+		pMem = NULL;
+		return;
+	}
 	MemLen = (len + 31)/32;// MemLen = (len + 31)>>5;
 	pMem = new TELEM[MemLen];
 	if ( pMem != NULL)
@@ -117,12 +129,12 @@ int TBitField::operator==(const TBitField &bf) const // сравнение
 
 int TBitField::operator!=(const TBitField &bf) const // сравнение
 {
-  int result = 0;
+  int result = 1;
   if (BitLen == bf.BitLen)
 	  for (int i=0; i<MemLen; i++)
 		  if (pMem[i] != bf.pMem[i])
 		  {
-			  result = 0;
+			  result = 1;
 			  break;
 		  }
   return result;
