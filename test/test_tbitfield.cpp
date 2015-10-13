@@ -292,3 +292,36 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
 
   EXPECT_NE(bf1, bf2);
 }
+
+TEST(TBitField, comparison_work)
+{
+	TBitField bt(5);
+	bt.SetBit(1);//01000
+	TBitField bt1 = bt;
+	bt1.SetBit(4);//01001
+	TBitField bt2(5);
+	bt2.SetBit(0);
+	bt2.SetBit(2);
+	bt2.SetBit(3);//10110
+	bt2 = bt2 | bt1;//11111
+	bt2 = ~bt2;//00000
+	bt2.SetBit(1);//01000
+	EXPECT_EQ(bt, bt2);
+}
+
+TEST(TBitField, comparison_or)
+{
+	TBitField bt(5);
+	//bt.SetBit(1);//01000
+	TBitField bt1(5);
+	bt1.SetBit(1);
+	bt1.SetBit(4);//01001
+	TBitField bt2(5);
+	bt2.SetBit(0);
+	bt2.SetBit(2);
+	bt2.SetBit(3);//10110
+
+	bt2 = ~(bt2 | bt1);//11111
+	EXPECT_EQ(bt, bt2);
+}
+
