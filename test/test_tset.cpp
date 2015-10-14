@@ -295,3 +295,34 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, tset_istream)
+{
+	TSet set1(4);
+	set1.InsElem(1);
+	set1.InsElem(2);
+
+	std::stringstream ss;
+	ss << "{1, 2}";
+	
+	TSet set2(4);
+	ss >> set2;
+
+	EXPECT_EQ(set1, set2);
+}
+
+TEST(TSet, tset_ostream)
+{
+	TSet set1(4);
+	set1.InsElem(1);
+	set1.InsElem(2);
+
+	std::stringstream ss;
+	ss << set1;
+	
+	string str1;
+	getline(ss, str1);
+
+	EXPECT_EQ(str1, string("{1, 2}"));
+
+}

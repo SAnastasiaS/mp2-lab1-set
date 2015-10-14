@@ -204,7 +204,7 @@ istream &operator>>(istream &istr, TBitField &bf) // ввод
 {
 	int i=0, k=0;
 	char ch;
-	cin >> std::ws; // кушает начальные пробелы
+	istr  >> std::ws; // кушает начальные пробелы
 	TBitField temp(32);
 	if ((char(istr.peek())!='0') && (char(istr.peek())!='1'))
 		return istr;

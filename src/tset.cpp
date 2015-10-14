@@ -121,11 +121,12 @@ TSet TSet::operator~(void) // дополнение
 istream &operator>>(istream &istr, TSet &s) // ввод// нужно ли делать более корректную реализацию ввода?
 {
 	int temp; char ch;
-	do
+
+	istr >> std::ws; //кушает пробелы
+
+	if (char(istr.peek())=='{')
 	{
-		istr >> ch;
-	}
-	while (ch!='{');
+		istr>>ch;
 	do
 	{
 		istr >> temp; 
@@ -137,6 +138,7 @@ istream &operator>>(istream &istr, TSet &s) // ввод// нужно ли дел
 			while ((ch!= ',') && (ch!='}'));
 	}
 	while (ch != '}');
+	}
 	return istr;
 }
 
