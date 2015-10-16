@@ -323,6 +323,6 @@ TEST(TSet, tset_ostream)
 	string str1;
 	getline(ss, str1);
 
-	EXPECT_EQ(str1, string("{1, 2}"));
+	EXPECT_EQ(string("{1, 2}"), str1);
 
 }

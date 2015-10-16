@@ -322,7 +322,7 @@ TEST(TBitField, bitfield_ostream)
 	string str1;
 	ss >> str1;
 
-	EXPECT_EQ(str1, string("110"));
+	EXPECT_EQ(string("110"), str1);
 }
 
 
