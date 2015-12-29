@@ -2,6 +2,8 @@
 
 #include <gtest.h>
 
+#include <sstream>
+
 TEST(TBitField, can_create_bitfield_with_positive_length)
 {
   ASSERT_NO_THROW(TBitField bf(3));
@@ -292,3 +294,35 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
 
   EXPECT_NE(bf1, bf2);
 }
+
+TEST(TBitField, bitfield_istream)
+{
+	TBitField bf1(3);
+	bf1.SetBit(0);
+	bf1.SetBit(1);
+
+	std::stringstream ss;
+	ss << "110";
+	
+	TBitField bf2(1);
+	ss >> bf2;
+
+	EXPECT_EQ(bf1, bf2);
+}
+
+TEST(TBitField, bitfield_ostream)
+{
+	TBitField bf1(3);
+	bf1.SetBit(0);
+	bf1.SetBit(1);
+
+	std::stringstream ss;
+	ss << bf1;
+	
+	string str1;
+	ss >> str1;
+
+	EXPECT_EQ(string("110"), str1);
+}
+
+
